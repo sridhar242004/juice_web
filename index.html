@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elixir | Revolutionary Non-Alcoholic Experiences</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --color-primary: #1A1A1A;
+            --color-accent: #FFD700;
+            --color-bg: #FAF7F2;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--color-bg);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+           
+        }
+
+        .font-display {
+            font-family: 'Syncopate', sans-serif;
+        }
+
+        .geometric-shape {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            filter: blur(100px);
+            top: -10%;
+            left: -10%;
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #4A90E2, #50E3C2);
+            filter: blur(80px);
+            top: 40%;
+            right: -5%;
+        }
+
+        .magnetic-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .magnetic-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-accent);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .magnetic-button:hover::before {
+            transform: translateX(0);
+        }
+
+        .product-card {
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .parallax-section {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .parallax-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            will-change: transform;
+        }
+
+        .cursor-follower {
+            width: 20px;
+            height: 20px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            mix-blend-mode: difference;
+        }
+
+        @media (max-width: 768px) {
+            .cursor-follower {
+                display: none;
+            }
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--color-accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--color-accent);
+            transform-origin: left;
+            z-index: 1000;
+        }
+        
+
+        .cursor-follower, .scroll-indicator, .geometric-shape {
+            display: none;
+        }
+
+        nav {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+
+        .split-text {
+            display: block;
+        }
+
+        .split-text-p {
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Button styles */
+        .magnetic-button {
+            transition: transform 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .magnetic-button:hover {
+            transform: scale(1.05);
+        }
+
+      /* Hero image styles */
+.hero-image {
+    width: 100%;
+    max-width: 450px; /* Limit maximum width */
+    height: auto;
+    border-radius: 24px;
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.hero-image:hover {
+    transform: scale(1.05); /* Slight hover scale effect */
+}
+
+/* Testimonial card */
+.testimonial-card {
+    width: 280px; /* Set a specific width for the card */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    bottom: -30px; /* Adjust position relative to image */
+    left: -30px;
+}
+
+.testimonial-card img {
+    width: 50px; /* Size of the customer's image */
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.testimonial-card p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.testimonial-card .font-medium {
+    font-weight: 600;
+}
+
+.testimonial-card .text-yellow-400 {
+    font-size: 16px;
+}
+
+/* Flex container for the testimonial */
+.testimonial-card .flex {
+    align-items: center;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .hero-image {
+        max-width: 550px; /* Larger width for bigger screens */
+    }
+    .testimonial-card {
+        width: 300px; /* Adjust width for larger screens */
+        bottom: -40px; /* Adjust position */
+        left: -40px;
+    }
+}
+
+
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <div class="cursor-follower"></div>
+    <div class="scroll-indicator"></div>
+    <div class="geometric-shape shape-1"></div>
+    <div class="geometric-shape shape-2"></div>
+
+    <nav class="fixed w-full top-0 z-50 bg-opacity-90 backdrop-blur-lg">
+        <div class="container mx-auto px-6 py-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-4xl font-display font-bold">ELIXIR</h1>
+                <div class="hidden md:flex space-x-12">
+                    <a href="#" class="nav-link text-lg hover:text-gray-600">Collection</a>
+                    <a href="#" class="nav-link text-lg hover:text-gray-600">Philosophy</a>
+                    <a href="#" class="nav-link text-lg hover:text-gray-600">Experience</a>
+                </div>
+                <button class="magnetic-button px-6 py-3 border-2 border-black font-medium rounded-full hover:text-white transition-all">
+                    Enter Shop
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="h-screen flex items-center relative overflow-hidden" id="hero">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                        <h2 class="text-7xl font-display font-bold leading-none split-text">
+                            REDEFINE<br>YOUR<br>RITUAL
+                        </h2>
+                        <p class="text-xl text-gray-600 max-w-lg split-text-p">
+                            Experience the future of non-alcoholic sophistication. 
+                            Crafted for the bold, the curious, and the mindful.
+                        </p>
+                        <div class="flex space-x-6">
+                            <button class="magnetic-button px-8 py-4 bg-black text-white rounded-full text-lg font-medium hover:text-black">
+                                Discover Now
+                            </button>
+                            <button class="px-8 py-4 border-2 border-black rounded-full text-lg font-medium hover:bg-black hover:text-white transition-all">
+                                Our Story
+                            </button>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <img src="original-1df851820625ba19ce3d7473c3b42f55.jpg" alt="Premium bottle display" class="rounded-3xl hero-image transform hover:scale-105 transition-transform duration-500">
+                        <div class="absolute -bottom-10 -left-10 bg-white p-8 rounded-2xl shadow-2xl testimonial-card">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <img src="e1979fb24d6e2122a220f8324438bdd4.jpg" alt="Customer" class="rounded-full">
+                                <div>
+                                    <p class="font-medium">Sarah J.</p>
+                                    <div class="flex text-yellow-400">
+                                        ★★★★★
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600">"A game-changer in sophisticated drinking."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add GIF in Hero Section -->
+                <div class="absolute right-0 bottom-0 p-4">
+                    <img src="ec90d7150893825.6302aa460361a.gif" alt="Decorative GIF" class="w-32 h-32 rounded-lg shadow-lg">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <section class="py-32 parallax-section" id="features">
+        <div class="container mx-auto px-6">
+            <h3 class="text-5xl font-display font-bold mb-16 text-center parallax-layer">Our Signature Elements</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Product 1 -->
+                <div class="product-card bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="h-80 mb-6 overflow-hidden rounded-2xl">
+                        <img src="OIP (14).jpg" alt="Product 1" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h4 class="text-2xl font-medium mb-4">Luminous Citrus</h4>
+                    <p class="text-gray-600 mb-6">Radiant blend of yuzu, bergamot, and rare botanicals</p>
+                    <button class="magnetic-button w-full py-4 bg-black text-white rounded-full font-medium hover:text-black">
+                        Experience Now
+                    </button>
+                </div>
+    
+                <!-- Product 2 -->
+                <div class="product-card bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="h-80 mb-6 overflow-hidden rounded-2xl">
+                        <img src="737228b1-9489-4ff7-a7e7-b65d2f5da452-cover.jpg" alt="Product 2" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h4 class="text-2xl font-medium mb-4">Midnight Rose</h4>
+                    <p class="text-gray-600 mb-6">Velvety darkness with Damascus rose and black truffle</p>
+                    <button class="magnetic-button w-full py-4 bg-black text-white rounded-full font-medium hover:text-black">
+                        Experience Now
+                    </button>
+                </div>
+    
+                <!-- Product 3 -->
+                <div class="product-card bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="h-80 mb-6 overflow-hidden rounded-2xl">
+                        <img src="lime-soda-drink-with-green-leaves-green-background-3d-illustration_934652-4874.jpg" alt="Product 3" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h4 class="text-2xl font-medium mb-4">Alpine Essence</h4>
+                    <p class="text-gray-600 mb-6">Crystal-clear blend with rare mountain herbs</p>
+                    <button class="magnetic-button w-full py-4 bg-black text-white rounded-full font-medium hover:text-black">
+                        Experience Now
+                    </button>
+                </div>
+    
+                <!-- Product 4 -->
+                <div class="product-card bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="h-80 mb-6 overflow-hidden rounded-2xl">
+                        <img src="lemon-soda-can-mockup_23-2151527411.jpg" alt="Product 4" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h4 class="text-2xl font-medium mb-4">Tropical Burst</h4>
+                    <p class="text-gray-600 mb-6">Bright and tangy mix of tropical fruits</p>
+                    <button class="magnetic-button w-full py-4 bg-black text-white rounded-full font-medium hover:text-black">
+                        Experience Now
+                    </button>
+                </div>
+    
+                <!-- Product 5 -->
+                <div class="product-card bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="h-80 mb-6 overflow-hidden rounded-2xl">
+                        <img src="IMG_3058.JPG" alt="Product 5" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h4 class="text-2xl font-medium mb-4">Berry Fusion</h4>
+                    <p class="text-gray-600 mb-6">A bold fusion of mixed berries and lavender</p>
+                    <button class="magnetic-button w-full py-4 bg-black text-white rounded-full font-medium hover:text-black">
+                        Experience Now
+                    </button>
+                </div>
+    
+                <!-- Product 6 -->
+                <div class="product-card bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="h-80 mb-6 overflow-hidden rounded-2xl">
+                        <img src="f94a6c156456509.6367c35ca1670.jpg" alt="Product 6" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h4 class="text-2xl font-medium mb-4">Ocean Breeze</h4>
+                    <p class="text-gray-600 mb-6">A refreshing wave of sea salt and mint</p>
+                    <button class="magnetic-button w-full py-4 bg-black text-white rounded-full font-medium hover:text-black">
+                        Experience Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+        <section class="py-32 bg-black text-white" id="experience">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h3 class="text-5xl font-display font-bold mb-8">Elevate Your Experience</h3>
+                        <p class="text-xl mb-8 text-gray-300">Immerse yourself in a world where sophistication meets innovation. Our master crafters have redefined what's possible in non-alcoholic beverages.</p>
+                        <div class="grid grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-4xl font-bold mb-2">50+</h4>
+                                <p class="text-gray-300">Unique Botanicals</p>
+                            </div>
+                            <div>
+                                <h4 class="text-4xl font-bold mb-2">100%</h4>
+                                <p class="text-gray-300">Natural Ingredients</p>
+                            </div>
+                            <div>
+                                <h4 class="text-4xl font-bold mb-2">5000+</h4>
+                                <p class="text-gray-300">Happy Customers</p>
+                            </div>
+                            <div>
+                                <h4 class="text-4xl font-bold mb-2">12</h4>
+                                <p class="text-gray-300">International Awards</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <img src="industrial-production-rose-wine-factory-producing-fresh-grapes-bottles-made-grapes-cabernet-sauvignon-68358365.jpg" alt="Craft process" class="rounded-3xl">
+                        <div class="absolute -bottom-10 -right-10 bg-white text-black p-8 rounded-2xl shadow-2xl">
+                            <h5 class="text-xl font-bold mb-4">Crafted with Passion</h5>
+                            <p class="text-gray-600">Every bottle is a masterpiece of flavor innovation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black text-white py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12">
+                <div>
+                    <h5 class="font-display text-lg mb-6">EXPLORE</h5>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Collection</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Gift Sets</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Corporate</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-display text-lg mb-6">ABOUT</h5>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Our Story</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Craft Process</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Sustainability</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-display text-lg mb-6">SUPPORT</h5>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-300 hover:text-white">FAQ</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Shipping</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-display text-lg mb-6">FOLLOW US</h5>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white">Instagram</a>
+                        <a href="#" class="text-gray-300 hover:text-white">Twitter</a>
+                        <a href="#" class="text-gray-300 hover:text-white">LinkedIn</a>
+                    </div>
+                    <form class="mt-6">
+                        <label for="email" class="block mb-2">Join our community</label>
+                        <div class="flex">
+                            <input type="email" id="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-l-full bg-gray-800 text-white focus:outline-none">
+                            <button class="px-6 py-3 bg-white text-black rounded-r-full font-medium hover:bg-gray-200">
+                                Join
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Custom cursor
+        const cursor = document.querySelector('.cursor-follower');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                duration: 0.5,
+                x: e.clientX,
+                y: e.clientY,
+                ease: "power2.out"
+            });
+        });
+
+        document.addEventListener('mouseenter', () => {
+            gsap.to(cursor, { duration: 0.3, opacity: 1 });
+        });
+
+        document.addEventListener('mouseleave', () => {
+            gsap.to(cursor, { duration: 0.3, opacity: 0 });
+        });
+
+        // Hero section animations
+        const heroTimeline = gsap.timeline({ defaults: { duration: 1, ease: "power3.out" } });
+        
+        heroTimeline
+            .from('.geometric-shape', { 
+                opacity: 0, 
+                scale: 0.5, 
+                stagger: 0.2,
+                duration: 1.5
+            })
+            .from('.split-text', {
+                y: 100,
+                opacity: 0,
+                stagger: 0.1
+            }, "-=1")
+            .from('.split-text-p', {
+                y: 50,
+                opacity: 0
+            }, "-=0.5")
+            .from('.hero-image', {
+                x: 100,
+                opacity: 0
+            }, "-=0.5")
+            .from('.testimonial-card', {
+                y: 50,
+                opacity: 0,
+                rotation: 5
+            }, "-=0.3");
+
+        // Scroll-triggered animations
+        gsap.from('.product-card', {
+            scrollTrigger: {
+                trigger: '#features',
+                start: "top center",
+                toggleActions: "play none none reverse"
+            },
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2
+        });
+
+        // Parallax effect
+        const parallaxLayers = document.querySelectorAll('.parallax-layer');
+        parallaxLayers.forEach(layer => {
+            gsap.to(layer, {
+                scrollTrigger: {
+                    trigger: layer.parentElement,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                },
+                y: (i, target) => -100 * target.dataset.speed || -50
+            });
+        });
+
+        // Scroll progress indicator
+        gsap.to('.scroll-indicator', {
+            scaleX: 1,
+            scrollTrigger: {
+                trigger: 'body',
+                start: "top top",
+                end: "bottom bottom",
+                scrub: true
+            }
+        });
+
+        // Product card hover effect
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const deltaX = (x - centerX) / centerX;
+                const deltaY = (y - centerY) / centerY;
+                
+                gsap.to(card, {
+                    duration: 0.5,
+                    rotationY: deltaX * 5,
+                    rotationX: -deltaY * 5,
+                    ease: "power2.out"
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    duration: 0.5,
+                    rotationY: 0,
+                    rotationX: 0,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // Magnetic button effect
+        document.querySelectorAll('.magnetic-button').forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                gsap.to(button, {
+                    duration: 0.3,
+                    x: (x - rect.width / 2) / rect.width * 20,
+                    y: (y - rect.height / 2) / rect.height * 20,
+                    ease: "power2.out"
+                });
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                gsap.to(button, {
+                    duration: 0.3,
+                    x: 0,
+                    y: 0
+                });
+            });
+        });
+
+        // Intersection Observer for nav background
+        const nav = document.querySelector('nav');
+        const navObserver = new IntersectionObserver(
+            ([entry]) => {
+                nav.classList.toggle('bg-white', !entry.isIntersecting);
+            },
+            { threshold: 0.9 }
+        );
+        
+        navObserver.observe(document.querySelector('#hero'));
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    gsap.to(window, {
+                        duration: 1,
+                        scrollTo: {
+                            y: target,
+                            offsetY: 70
+                        },
+                        ease: "power2.inOut"
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
