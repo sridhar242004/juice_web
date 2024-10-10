@@ -15,26 +15,25 @@
             --color-accent: #FFD700;
             --color-bg: #FAF7F2;
         }
-
+        
         body {
             font-family: 'Space Grotesk', sans-serif;
             background-color: var(--color-bg);
             overflow-x: hidden;
             margin: 0;
             padding: 0;
-           
         }
-
+        
         .font-display {
             font-family: 'Syncopate', sans-serif;
         }
-
+        
         .geometric-shape {
             position: absolute;
             z-index: -1;
             opacity: 0;
         }
-
+        
         .shape-1 {
             width: 400px;
             height: 400px;
@@ -43,7 +42,7 @@
             top: -10%;
             left: -10%;
         }
-
+        
         .shape-2 {
             width: 300px;
             height: 300px;
@@ -52,13 +51,13 @@
             top: 40%;
             right: -5%;
         }
-
+        
         .magnetic-button {
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
         }
-
+        
         .magnetic-button::before {
             content: '';
             position: absolute;
@@ -71,28 +70,28 @@
             transition: transform 0.3s ease;
             z-index: -1;
         }
-
+        
         .magnetic-button:hover::before {
             transform: translateX(0);
         }
-
+        
         .product-card {
             transform-style: preserve-3d;
             transition: transform 0.5s ease;
         }
-
+        
         .parallax-section {
             overflow: hidden;
             position: relative;
         }
-
+        
         .parallax-layer {
             position: absolute;
             width: 100%;
             height: 100%;
             will-change: transform;
         }
-
+        
         .cursor-follower {
             width: 20px;
             height: 20px;
@@ -104,17 +103,121 @@
             opacity: 0;
             mix-blend-mode: difference;
         }
-
+        
         @media (max-width: 768px) {
             .cursor-follower {
                 display: none;
             }
+        
+            .container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        
+            h1, h2, h3, h4 {
+                font-size: 1.75rem; /* Scale down heading sizes */
+            }
+        
+            button, .nav-link {
+                font-size: 1rem;
+            }
+        
+            #hero {
+                height: auto; /* Allow the height to adjust naturally */
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+        
+            #hero h2 {
+                font-size: 2.5rem; /* Smaller heading in hero */
+                line-height: 1.2;
+            }
+        
+            #hero p {
+                font-size: 1.1rem;
+            }
+        
+            .hero-image {
+                width: 100%; /* Make the image full width */
+                height: auto;
+            }
+        
+            .product-card {
+                padding: 1rem;
+            }
+        
+            .product-card img {
+                height: auto;
+                max-height: 200px;
+            }
+        
+            .grid {
+                grid-template-columns: 1fr; /* One column layout */
+            }
+        
+            nav .magnetic-button {
+                font-size: 0.9rem;
+                padding: 0.75rem 1.5rem;
+            }
+        
+            .testimonial-card {
+                width: 90%;
+                bottom: -10px; /* Adjust position for smaller screens */
+                left: -10px;
+            }
+        
+            .testimonial-card img {
+                width: 40px; /* Size of the customer's image */
+                height: 40px;
+            }
+        
+            .testimonial-card p {
+                font-size: 12px;
+            }
+        
+            .testimonial-card .font-medium {
+                font-weight: 600;
+            }
+        
+            .testimonial-card .text-yellow-400 {
+                font-size: 14px;
+            }
         }
-
+        
+        /* Even smaller screens (mobile portrait, around 480px wide) */
+        @media (max-width: 480px) {
+            h1, h2 {
+                font-size: 1.5rem; /* Smaller headings */
+            }
+        
+            h3 {
+                font-size: 1.25rem;
+            }
+        
+            section {
+                padding: 1rem;
+            }
+        
+            button {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+        
+            nav h1 {
+                font-size: 1.5rem; /* Smaller logo size */
+            }
+        
+            .hero-image, .product-card img {
+                width: 100%; /* Full width */
+                height: auto;
+            }
+        }
+        
+        /* Other styles */
         .nav-link {
             position: relative;
         }
-
+        
         .nav-link::after {
             content: '';
             position: absolute;
@@ -127,12 +230,12 @@
             transform-origin: right;
             transition: transform 0.3s ease;
         }
-
+        
         .nav-link:hover::after {
             transform: scaleX(1);
             transform-origin: left;
         }
-
+        
         .scroll-indicator {
             position: fixed;
             top: 0;
@@ -144,98 +247,98 @@
             z-index: 1000;
         }
         
-
-        .cursor-follower, .scroll-indicator, .geometric-shape {
+        cursor-follower, .scroll-indicator, .geometric-shape {
             display: none;
         }
-
+        
         nav {
             background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
         }
-
-
+        
         .split-text {
             display: block;
         }
-
+        
         .split-text-p {
             margin-top: 1rem;
             margin-bottom: 2rem;
         }
-
+        
         /* Button styles */
         .magnetic-button {
             transition: transform 0.3s ease, color 0.3s ease, background-color 0.3s ease;
         }
-
+        
         .magnetic-button:hover {
             transform: scale(1.05);
         }
-
-      /* Hero image styles */
-.hero-image {
-    width: 100%;
-    max-width: 450px; /* Limit maximum width */
-    height: auto;
-    border-radius: 24px;
-    transform: scale(1);
-    transition: transform 0.3s ease-in-out;
-}
-
-.hero-image:hover {
-    transform: scale(1.05); /* Slight hover scale effect */
-}
-
-/* Testimonial card */
-.testimonial-card {
-    width: 280px; /* Set a specific width for the card */
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 24px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    position: absolute;
-    bottom: -30px; /* Adjust position relative to image */
-    left: -30px;
-}
-
-.testimonial-card img {
-    width: 50px; /* Size of the customer's image */
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.testimonial-card p {
-    margin: 0;
-    font-size: 14px;
-    color: #555;
-}
-
-.testimonial-card .font-medium {
-    font-weight: 600;
-}
-
-.testimonial-card .text-yellow-400 {
-    font-size: 16px;
-}
-
-/* Flex container for the testimonial */
-.testimonial-card .flex {
-    align-items: center;
-}
-
-/* Responsive adjustments */
-@media (min-width: 768px) {
-    .hero-image {
-        max-width: 550px; /* Larger width for bigger screens */
-    }
-    .testimonial-card {
-        width: 300px; /* Adjust width for larger screens */
-        bottom: -40px; /* Adjust position */
-        left: -40px;
-    }
-}
+        
+        /* Hero image styles */
+        .hero-image {
+            width: 100%;
+            max-width: 450px; /* Limit maximum width */
+            height: auto;
+            border-radius: 24px;
+            transform: scale(1);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .hero-image:hover {
+            transform: scale(1.05); /* Slight hover scale effect */
+        }
+        
+        /* Testimonial card */
+        .testimonial-card {
+            width: 280px; /* Set a specific width for the card */
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            bottom: -30px; /* Adjust position relative to image */
+            left: -30px;
+        }
+        
+        .testimonial-card img {
+            width: 50px; /* Size of the customer's image */
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .testimonial-card p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .testimonial-card .font-medium {
+            font-weight: 600;
+        }
+        
+        .testimonial-card .text-yellow-400 {
+            font-size: 16px;
+        }
+        
+        /* Flex container for the testimonial */
+        .testimonial-card .flex {
+            align-items: center;
+        }
+        
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .hero-image {
+                max-width: 550px; /* Larger width for bigger screens */
+            }
+        
+            .testimonial-card {
+                width: 300px; /* Adjust width for larger screens */
+                bottom: -40px; /* Adjust position */
+                left: -40px;
+            }
+        }
+        
 
 
     </style>
